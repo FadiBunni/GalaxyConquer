@@ -10,9 +10,8 @@ public abstract class GameObject implements IEntity {
 	protected String planetColor;
 	
 	
-	public GameObject(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
-	
-	}	
+	public GameObject() {
+	}
 	
 	public abstract int randomPlanetIntervalSize(int min, int max);	
 }

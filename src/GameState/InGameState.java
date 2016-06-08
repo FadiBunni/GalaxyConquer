@@ -10,7 +10,8 @@ import Entity.*;
 public class InGameState extends GameState {
 	
 	private Background bg;
-	private ArrayList<Planets> planets =  new ArrayList<Planets>();
+	private ArrayList<Planet> planets;
+	private int amoutOfPlanets = 20;
 	
 	public InGameState(GameStateManager gsm){
 		this.gsm=gsm;
@@ -20,12 +21,10 @@ public class InGameState extends GameState {
 	public void init(){
 		bg = new Background("/Backgrounds/space.jpg", 1);
 		
-		
-		//planet[0] = new Planets(0, 0, 0, 0);
-		
-		for(int i = 0; i< 10; i++)
-			planets.add(new Planets(0, 0, 0, 0));
-
+		planets = new ArrayList<Planet>();
+		for(int i = 1; i <= amoutOfPlanets; i++){
+			planets.add(new Planet(0,0,0,0));
+		}
 	}
 	
 
