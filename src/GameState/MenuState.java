@@ -52,32 +52,32 @@ public class MenuState extends GameState {
 		bg.update();
 	}
 	
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g2d) {
 		// draw bg
-		bg.draw(g);
+		bg.draw(g2d);
 		
 		//draw title
 		text = "Galaxy Conquer";
-		g.setColor(titleColor);
-		g.setFont(titleFont);
+		g2d.setColor(titleColor);
+		g2d.setFont(titleFont);
 		
-		FontMetrics fm = g.getFontMetrics();
+		FontMetrics fm = g2d.getFontMetrics();
         int x = ((GamePanel.WIDTH - fm.stringWidth(text)) / 2);
         int y = GamePanel.HEIGHT - (GamePanel.HEIGHT / 2);
         
-		g.drawString(text, x, y-80);
+		g2d.drawString(text, x, y-80);
 		
 		//draw menu options
-		g.setFont(font);
+		g2d.setFont(font);
 		for(int i = 0; i< options.length; i++){
 			if(i == currentChoice){
-				g.setColor(Color.BLACK);
+				g2d.setColor(Color.BLACK);
 			}else {
-				g.setColor(Color.RED);
+				g2d.setColor(Color.RED);
 			}   
 			x = ((GamePanel.WIDTH - fm.stringWidth(options[i])) / 2);
 			y = (int) (GamePanel.HEIGHT - (GamePanel.HEIGHT / (double)2.2));
-			g.drawString(options[i], x, i*35+y);
+			g2d.drawString(options[i], x, i*35+y);
 		}
 	}
 	
