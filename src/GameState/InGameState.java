@@ -11,10 +11,13 @@ public class InGameState extends GameState {
 	
 	private Background bg;
 	//private ArrayList<Planet> planets;
-	private int amoutOfPlanets = 20;
+	private int amoutOfPlanets = 50;
 	private boolean foundPlanetCollision;
 	private ArrayList<Planet> planets = new ArrayList<Planet>();
-	boolean isColliding;
+	private PlayerPlanet playerPlanet;
+	boolean isCollidingGrayzone;
+	boolean isCollidingPlayer;
+	boolean iscoolidingEnemy;
 	
 	public InGameState(GameStateManager gsm){
 		this.gsm=gsm;
@@ -24,32 +27,24 @@ public class InGameState extends GameState {
 	public void init(){
 		bg = new Background("/Backgrounds/space.jpg", 1);
 		
+		while(planets.size() < amoutOfPlanets){
+			playerPlanet = new PlayerPlanet(10, 10, 90, 400);
+			Planet planet = new Planet(0, 0, 0, 0);
+			foundPlanetCollision = false;
 
-			while(planets.size() < amoutOfPlanets){
-				Planet planet = new Planet(0, 0, 0, 0);
-				foundPlanetCollision = false;
-	
-				for (int i = 0; i < planets.size(); i++){
-					Planet currentPlanet = (Planet) planets.get(i);
-					isColliding = planets.get(i).checkPlanetCollision(currentPlanet.getX(), currentPlanet.getY(), currentPlanet.getPlanetDiameter(), planet.getX(), planet.getY(), planet.getPlanetDiameter());
-					if(isColliding){
-						foundPlanetCollision = true;
-					}
-				}
-				
-				if(!foundPlanetCollision){
-				      planets.add(planet);
+			for (int i = 0; i < planets.size(); i++){
+				Planet currentPlanet = (Planet) planets.get(i);
+				isCollidingGrayzone = planets.get(i).checkPlanetCollision(currentPlanet.getX(), currentPlanet.getY(), currentPlanet.getPlanetDiameter(), planet.getX(), planet.getY(), planet.getPlanetDiameter());
+				isCollidingPlayer = planets.get(i).checkPlanetCollision(currentPlanet.getX(), currentPlanet.getY(), currentPlanet.getPlanetDiameter(), playerPlanet.getX(), playerPlanet.getY(), playerPlanet.getPlanetDiameter());
+				if(isCollidingGrayzone || isCollidingPlayer){
+					foundPlanetCollision = true;
 				}
 			}
-		
-		
-		
-		
-//		planets = new ArrayList<Planet>();
-//		for(int i = 1; i <= amoutOfPlanets; i++){
-//			planets.add(new Planet(0, 0, 0, 0));
-//		}
-		
+			
+			if(!foundPlanetCollision){
+			      planets.add(planet);
+			}
+		}		
 		for (int i = 0; i< planets.size(); i++){
 			planets.get(i).init();
 		}
@@ -69,6 +64,10 @@ public class InGameState extends GameState {
 		for (int i = 0; i< planets.size(); i++){
 			planets.get(i).draw(g2d);
 		}
+		
+		// draw playerPlanet
+		
+		playerPlanet.draw(g2d);
 
 	}
 

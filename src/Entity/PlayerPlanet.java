@@ -7,44 +7,43 @@ import java.awt.Graphics2D;
 
 import Main.GamePanel;
 
-public class Planet extends GameObject {
-	
-	public Planet(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
+public class PlayerPlanet extends GameObject {
+
+	public PlayerPlanet(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
 		super(xLoc, yLoc, planetSize, planetScoreNumber);
-		this.xLoc = (int) (Math.random()*GamePanel.WIDTH);
-		this.yLoc = (int) (Math.random()*GamePanel.HEIGHT);
-		this.planetSize = randomPlanetIntervalSize(40,90);
-		this.planetScoreNumber = this.planetSize*5;
+		this.xLoc = xLoc;
+		this.yLoc = yLoc;
+		this.planetSize = planetSize;
+		this.planetScoreNumber = planetScoreNumber;
+		
 	}
 
 	@Override
-	public void init() {
+	public void init() {		
 		checkWindowCollision(xLoc, yLoc);
 	}
 
 	@Override
 	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
-
+		
 		FontMetrics fm = g2d.getFontMetrics();
 		int x = (((planetSize - fm.stringWidth(Integer.toString(planetScoreNumber))) / 2) + xLoc);
 		int y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
 
-		g2d.setColor(Color.GRAY);
+		g2d.setColor(Color.GREEN);
 		g2d.fillOval(xLoc, yLoc, planetSize, planetSize);
 		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g2d.setColor(Color.BLACK);
 		g2d.drawString(Integer.toString(planetScoreNumber), x, y);
 	}
 
-	public int randomPlanetIntervalSize(int min, int max) {
-		int range = (max-min) + 1;
-		return (int)(Math.random() * range) + min;
-	} 
-	
+	@Override
 	public int[] checkWindowCollision(int xLoc, int yLoc) {
 		if(xLoc - (this.planetSize / 2)  < 0) {
 			this.xLoc = 0;
@@ -59,29 +58,25 @@ public class Planet extends GameObject {
 		}
 		return new int[] {xLoc, yLoc};
 	}
-	
-	public float getX(){
+
+	@Override
+	public float getX() {
 		return this.xLoc;
 	}
-	
-	public float getY(){
+
+	@Override
+	public float getY() {
 		return this.yLoc;
 	}
-	
+
+	@Override
 	public float getPlanetDiameter() {
 		return this.planetSize;
 	}
-	
+
+	@Override
 	public float planetScoreNumber() {
-		// TODO Auto-generated method stub
 		return planetScoreNumber;
 	}
-	
-	public boolean checkPlanetCollision(double xLoc1, double yLoc1, float cr1, double xLoc2, double yLoc2, float cr2) {
-		double dx = xLoc1 - xLoc2;
-		double dy = yLoc1 - yLoc2;
-		double distance = dx * dx + dy * dy;
-		float radiusSum = cr1 + cr2;
-		return distance < Math.pow(radiusSum, 2);
-	}
+
 }
