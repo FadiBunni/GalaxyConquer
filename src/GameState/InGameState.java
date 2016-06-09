@@ -23,12 +23,17 @@ public class InGameState extends GameState {
 		
 		planets = new ArrayList<Planet>();
 		for(int i = 1; i <= amoutOfPlanets; i++){
-			planets.add(new Planet(0,0,0,0));
+			planets.add(new Planet(0, 0, 0, 0));
 		}
+
 	}
 	
 
-	public void update() {}
+	public void update() {
+		for (int i = 0; i< planets.size(); i++){
+			planets.get(i).update();
+		}
+	}
 
 	public void draw(Graphics2D g2d) {
 		// draw bg
@@ -38,6 +43,7 @@ public class InGameState extends GameState {
 		for (int i = 0; i< planets.size(); i++){
 			planets.get(i).draw(g2d);
 		}
+
 	}
 
 	public void keyPressed(int k) {}

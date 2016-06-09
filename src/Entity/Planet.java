@@ -8,24 +8,22 @@ import java.awt.Graphics2D;
 import Main.GamePanel;
 
 public class Planet extends GameObject {
-
+	
 	public Planet(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
-		super();
+		super(xLoc, yLoc, planetSize, planetScoreNumber);
+		this.xLoc = (int) (Math.random()*GamePanel.WIDTH);
+		this.yLoc = (int) (Math.random()*GamePanel.HEIGHT);
 		this.planetSize = randomPlanetIntervalSize(40,90);
-		this.xLoc = (int) 0 - this.planetSize;
-		this.yLoc = (int) 0 - this.planetSize;
 		this.planetScoreNumber = this.planetSize*5;
 	}
 
 	@Override
 	public void init() {
-		
 	}
 
 	@Override
 	public void update() {
-		
-
+		checkWindowCollision(xLoc, yLoc);
 	}
 
 	@Override
@@ -34,7 +32,6 @@ public class Planet extends GameObject {
 		FontMetrics fm = g2d.getFontMetrics();
 		int x = (((planetSize - fm.stringWidth(Integer.toString(planetScoreNumber))) / 2) + xLoc);
 		int y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
-		
 
 		g2d.setColor(Color.GRAY);
 		g2d.fillOval(xLoc, yLoc, planetSize, planetSize);
@@ -47,7 +44,21 @@ public class Planet extends GameObject {
 	public int randomPlanetIntervalSize(int min, int max) {
 		int range = (max-min) + 1;
 		return (int)(Math.random() * range) + min;
-	}
+	} 
 	
-	public 
+	public int[] checkWindowCollision(int xLoc, int yLoc) {
+		if(xLoc - (this.planetSize / 2)  < 0) {
+			this.xLoc = 0;
+		}else if(xLoc + (this.planetSize) > GamePanel.WIDTH){
+			this.xLoc = GamePanel.WIDTH - (this.planetSize);
+		}
+		
+		if(yLoc - (this.planetSize / 2) < 0) {
+			this.yLoc = 0;
+		}else if(yLoc + (this.planetSize) > GamePanel.HEIGHT){
+			this.yLoc = GamePanel.HEIGHT - (this.planetSize);
+		}
+		return new int[] {xLoc, yLoc};
+	}
+
 }

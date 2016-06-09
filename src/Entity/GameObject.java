@@ -1,6 +1,10 @@
 package Entity;
 
-public abstract class GameObject implements IEntity {
+import java.awt.Graphics2D;
+
+import Main.GamePanel;
+
+public abstract class GameObject{
 	// planets
 	protected int planetSize;
 	protected int planetDiameter;
@@ -9,9 +13,13 @@ public abstract class GameObject implements IEntity {
 	protected int yLoc;
 	protected String planetColor;
 	
-	
-	public GameObject() {
+	public GameObject(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
 	}
 	
+	public abstract void init();
+	public abstract void update();
+	public abstract void draw(Graphics2D g2d);
+	
 	public abstract int randomPlanetIntervalSize(int min, int max);	
+	public abstract int[] checkWindowCollision(int xLoc, int yLoc);
 }
