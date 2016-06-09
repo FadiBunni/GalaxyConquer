@@ -19,11 +19,11 @@ public class Planet extends GameObject {
 
 	@Override
 	public void init() {
+		checkWindowCollision(xLoc, yLoc);
 	}
 
 	@Override
 	public void update() {
-		checkWindowCollision(xLoc, yLoc);
 	}
 
 	@Override
@@ -59,6 +59,27 @@ public class Planet extends GameObject {
 			this.yLoc = GamePanel.HEIGHT - (this.planetSize);
 		}
 		return new int[] {xLoc, yLoc};
+	}
+	
+	public float getX(){
+		return this.xLoc;
+	}
+	
+	public float getY(){
+		return this.yLoc;
+	}
+	
+	public float getPlanetDiameter() {
+		return this.planetSize;
+	}
+
+	public boolean checkPlanetCollision(double xLoc1, double yLoc1, float cr1, double xLoc2, double yLoc2, float cr2) {
+		double dx = xLoc1 - xLoc2;
+		double dy = yLoc1 - yLoc2;
+		double distance = dx * dx + dy * dy;
+		float radiusSum = cr1 + cr2;
+		return distance < Math.pow(radiusSum, 2);
+		
 	}
 
 }
