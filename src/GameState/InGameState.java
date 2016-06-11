@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Backgrounds.Background;
 import Entity.*;
+import Main.GamePanel;
 
 
 public class InGameState extends GameState {
@@ -12,12 +13,14 @@ public class InGameState extends GameState {
 	private Background bg;
 	//private ArrayList<Planet> planets;
 	private int amoutOfPlanets = 50;
+	private int counter = 0;
 	private boolean foundPlanetCollision;
-	private ArrayList<Planet> planets = new ArrayList<Planet>();
-	private PlayerPlanet playerPlanet;
-	boolean isCollidingGrayzone;
-	boolean isCollidingPlayer;
-	boolean iscoolidingEnemy;
+	private ArrayList<PlanetGrayzone> planetGrayzones = new ArrayList<PlanetGrayzone>(50);
+	private ArrayList<PlayerPlanet> playerPlanets = new ArrayList<PlayerPlanet>(52);
+	private ArrayList<EnemyPlanet> enemyPlanets = new ArrayList<EnemyPlanet>(52);
+	private boolean isCollidingGrayzone;
+	private boolean isCollidingPlayer;
+	private boolean isCoolidingEnemy;
 	
 	public InGameState(GameStateManager gsm){
 		this.gsm=gsm;
@@ -25,35 +28,43 @@ public class InGameState extends GameState {
 	}
 	
 	public void init(){
-		bg = new Background("/Backgrounds/space.jpg", 1);
-		
-		while(planets.size() < amoutOfPlanets){
-			playerPlanet = new PlayerPlanet(10, 10, 90, 400);
-			Planet planet = new Planet(0, 0, 0, 0);
-			foundPlanetCollision = false;
+		bg = new Background("/Backgrounds/space.jpg", 1);	
+	}
+	
+	
 
-			for (int i = 0; i < planets.size(); i++){
-				Planet currentPlanet = (Planet) planets.get(i);
-				isCollidingGrayzone = planets.get(i).checkPlanetCollision(currentPlanet.getX(), currentPlanet.getY(), currentPlanet.getPlanetDiameter(), planet.getX(), planet.getY(), planet.getPlanetDiameter());
-				isCollidingPlayer = planets.get(i).checkPlanetCollision(currentPlanet.getX(), currentPlanet.getY(), currentPlanet.getPlanetDiameter(), playerPlanet.getX(), playerPlanet.getY(), playerPlanet.getPlanetDiameter());
-				if(isCollidingGrayzone || isCollidingPlayer){
+	public void update() {
+		PlayerPlanet playerPlanet = new PlayerPlanet(10, 10, 90, 400);
+		EnemyPlanet enemyPlanet = new EnemyPlanet(GamePanel.WIDTH - 100 , GamePanel.HEIGHT - 100,90,400);
+		playerPlanets.add(playerPlanet);
+		enemyPlanets.add(enemyPlanet);
+		while(planetGrayzones.size() < amoutOfPlanets){
+			PlanetGrayzone planetGrayzone = new PlanetGrayzone();
+			
+			foundPlanetCollision = false;
+			
+			System.out.println("planetGrayzone: " + planetGrayzones.size());
+			System.out.println("playerPlanet: " + playerPlanets.size());
+			
+			for (int i = 0; i < planetGrayzones.size(); i++){
+				PlanetGrayzone currentPlanet = (PlanetGrayzone) planetGrayzones.get(i);
+				isCollidingGrayzone = planetGrayzones.get(i).checkPGTPGCollision(currentPlanet, planetGrayzone);
+				isCollidingPlayer = playerPlanets.get(0).checkPGTPPCollision(planetGrayzone, playerPlanet);
+				isCoolidingEnemy = enemyPlanets.get(0).checkPGTEPCollision(planetGrayzone, enemyPlanet);
+				if(isCollidingGrayzone || isCollidingPlayer || isCoolidingEnemy){
 					foundPlanetCollision = true;
+					counter++;
+					if(counter == 5){
+						planetGrayzones.remove(planetGrayzones.size()-1);
+					}
 				}
 			}
 			
 			if(!foundPlanetCollision){
-			      planets.add(planet);
+				planetGrayzones.add(planetGrayzone);
+				counter = 0; 
 			}
-		}		
-		for (int i = 0; i< planets.size(); i++){
-			planets.get(i).init();
-		}
-
-	}
-	
-
-	public void update() {
-		
+		}	
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -61,13 +72,19 @@ public class InGameState extends GameState {
 		bg.draw(g2d);
 		
 		// draw planet
-		for (int i = 0; i< planets.size(); i++){
-			planets.get(i).draw(g2d);
+		for (int i = 0; i< planetGrayzones.size(); i++){
+			planetGrayzones.get(i).draw(g2d);
 		}
 		
 		// draw playerPlanet
+		for (int i = 0; i< playerPlanets.size(); i++){
+			playerPlanets.get(i).draw(g2d);
+		}
 		
-		playerPlanet.draw(g2d);
+		// draw enemyPlanet
+		for (int i = 0; i< enemyPlanets.size(); i++){
+			enemyPlanets.get(i).draw(g2d);
+		}
 
 	}
 
