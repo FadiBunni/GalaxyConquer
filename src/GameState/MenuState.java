@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
+
+import Handler.Keys;
 
 import Backgrounds.Background;
 import Main.GamePanel;
@@ -17,7 +18,6 @@ public class MenuState extends GameState {
 	
 	private String[] options = {
 			"Start",
-			"Help",
 			"Quit"
 	};
 	
@@ -27,11 +27,11 @@ public class MenuState extends GameState {
 	private String text;
 	
 	public MenuState(GameStateManager gsm) {
-		this.gsm = gsm;
+		super(gsm);
 		init();
 	}
 		
-	public void init() {		
+	public void init() {
 		try{
 			bg = new Background("/Backgrounds/hubble1.jpg", 1);
 			
@@ -50,6 +50,9 @@ public class MenuState extends GameState {
 	
 	public void update() {
 		bg.update();
+		
+		// check keys
+		handleInput();
 	}
 	
 	public void draw(Graphics2D g2d) {
@@ -84,6 +87,7 @@ public class MenuState extends GameState {
 	private void select() {
 		if(currentChoice == 0) {
 			gsm.setState(GameStateManager.INGAMESTATE);
+			
 			//start
 		}
 		if(currentChoice == 1) {
@@ -94,24 +98,18 @@ public class MenuState extends GameState {
 		}
 	}
 	
-	public void keyPressed(int k) {
-		if(k == KeyEvent.VK_ENTER) {
-			select();
-		}
-		if(k == KeyEvent.VK_UP){
-			currentChoice--;
-			if(currentChoice == -1){
-				currentChoice = options.length-1;
+	public void handleInput() {
+		if(Handler.Keys.isPressed(Keys.ENTER)) select();
+		if(Keys.isPressed(Keys.UP)) {
+			if(currentChoice > 0) {
+				currentChoice--;
 			}
 		}
-		if(k == KeyEvent.VK_DOWN) {
-			currentChoice++;
-			if(currentChoice == options.length){
-				currentChoice = 0;
+		if(Keys.isPressed(Keys.DOWN)) {
+			if(currentChoice < options.length - 1) {
+				currentChoice++;
 			}
 		}
 	}
-	
-	public void keyReleased(int k) {}
 
 }

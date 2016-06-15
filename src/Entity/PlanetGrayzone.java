@@ -13,7 +13,7 @@ public class PlanetGrayzone extends GameObject {
 		this.xLoc = (int) (Math.random()*GamePanel.WIDTH);
 		this.yLoc = (int) (Math.random()*GamePanel.HEIGHT);
 		this.planetSize = randomPlanetIntervalSize(30,90);
-		this.planetScoreNumber = this.planetSize*5;
+		this.planetScoreNumber = this.planetSize*3;
 		init();
 	}
 
@@ -30,14 +30,16 @@ public class PlanetGrayzone extends GameObject {
 	public void draw(Graphics2D g2d) {
 
 		FontMetrics fm = g2d.getFontMetrics();
-		float x = (((planetSize - fm.stringWidth(Integer.toString(planetScoreNumber))) / 2) + xLoc);
+		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);
 		float y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
-
+		
+		
 		g2d.setColor(Color.GRAY);
 		g2d.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
 		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(Integer.toString(planetScoreNumber), x, y);
+		g2d.drawString(Integer.toString((int)planetScoreNumber), x, y);
+		
 	}
 
 	public int randomPlanetIntervalSize(int min, int max) {
@@ -73,14 +75,7 @@ public class PlanetGrayzone extends GameObject {
 	}
 	
 	public int planetScoreNumber() {
-		return planetScoreNumber;
+		return (int)planetScoreNumber;
 	}
 	
-	public boolean checkPGTPGCollision(PlanetGrayzone currentPlanet, PlanetGrayzone planetGrayzone) {
-		double dx = currentPlanet.getX() - planetGrayzone.getX();
-		double dy = currentPlanet.getY() - planetGrayzone.getY();
-		double distance = dx * dx + dy * dy;
-		float radiusSum = currentPlanet.getPlanetDiameter() + planetGrayzone.getPlanetDiameter();
-		return distance < Math.pow(radiusSum, 2);
-	}
 }

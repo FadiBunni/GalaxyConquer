@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 public abstract class GameObject{
 	// planets
 	protected int planetSize;
-	protected int planetScoreNumber;
+	protected double planetScoreNumber;
 	protected float xLoc;
 	protected float yLoc;
 	

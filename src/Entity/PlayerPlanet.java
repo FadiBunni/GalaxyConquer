@@ -9,7 +9,7 @@ import Main.GamePanel;
 
 public class PlayerPlanet extends GameObject {
 
-	public PlayerPlanet(float xLoc, float yLoc, int planetSize, int planetScoreNumber) {
+	public PlayerPlanet(float xLoc, float yLoc, int planetSize, double planetScoreNumber) {
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
 		this.planetSize = planetSize;
@@ -19,27 +19,25 @@ public class PlayerPlanet extends GameObject {
 
 	@Override
 	public void init() {		
-		checkWindowCollision(xLoc, yLoc);
+		checkWindowCollision(xLoc, yLoc); // is not need, already hardcoded.
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		planetScoreNumber += 0.05 ;
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
-		
 		FontMetrics fm = g2d.getFontMetrics();
-		float x = (((planetSize - fm.stringWidth(Integer.toString(planetScoreNumber))) / 2) + xLoc);
+		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);
 		float y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
 
 		g2d.setColor(Color.GREEN);
 		g2d.fillOval((int)xLoc,(int)yLoc, planetSize, planetSize);
 		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(Integer.toString(planetScoreNumber), x, y);
+		g2d.drawString(Integer.toString((int)planetScoreNumber), x, y);
 	}
 
 	@Override
@@ -75,15 +73,7 @@ public class PlayerPlanet extends GameObject {
 
 	@Override
 	public int planetScoreNumber() {
-		return planetScoreNumber;
+		return (int)planetScoreNumber;
 	}
 	
-	public boolean checkPGTPPCollision(PlanetGrayzone planetGrayzone, PlayerPlanet playerPlanet) {
-		double dx = planetGrayzone.getX() - playerPlanet.getX();
-		double dy = planetGrayzone.getY() - playerPlanet.getY();
-		double distance = dx * dx + dy * dy;
-		float radiusSum = planetGrayzone.getPlanetDiameter() + playerPlanet.getPlanetDiameter();
-		return distance < Math.pow(radiusSum, 2);
-	}
-
 }

@@ -20,29 +20,27 @@ public class EnemyPlanet extends GameObject {
 
 	@Override
 	public void init() {
-		checkWindowCollision(xLoc, yLoc);
+		checkWindowCollision(xLoc, yLoc); // is not need, already hardcoded.
 		
 	}
 
 	@Override
 	public void update() {
-		
-	
-		
+		planetScoreNumber += 0.05 ;
 	}
 
 	@Override
 	public void draw(Graphics2D g2d) {
 		
 		FontMetrics fm = g2d.getFontMetrics();
-		float x = (((planetSize - fm.stringWidth(Integer.toString(planetScoreNumber))) / 2) + xLoc);
+		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);
 		float y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
 
 		g2d.setColor(Color.RED);
 		g2d.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
 		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(Integer.toString(planetScoreNumber), x, y);
+		g2d.drawString(Integer.toString((int)planetScoreNumber), x, y);
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class EnemyPlanet extends GameObject {
 
 	@Override
 	public int planetScoreNumber() {
-		return planetScoreNumber;
+		return (int)planetScoreNumber;
 	}
 
 	@Override
@@ -80,14 +78,4 @@ public class EnemyPlanet extends GameObject {
 		}
 		return new float[] {xLoc, yLoc};
 	}
-	
-	public boolean checkPGTEPCollision(PlanetGrayzone planetGrayzone, EnemyPlanet enemyPlanet) {
-		double dx = planetGrayzone.getX() - enemyPlanet.getX();
-		double dy = planetGrayzone.getY() - enemyPlanet.getY();
-		double distance = dx * dx + dy * dy;
-		float radiusSum = planetGrayzone.getPlanetDiameter() + enemyPlanet.getPlanetDiameter();
-		return distance < Math.pow(radiusSum, 2);
-	}
-
-
 }

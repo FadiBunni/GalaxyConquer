@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+import Handler.Keys;
+
 import GameState.GameStateManager;
 
 @SuppressWarnings("serial")
@@ -46,7 +49,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		private void init() {
 			image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 			g = (Graphics2D) image.getGraphics();
-
+			
+			/*g.setRenderingHint(
+			RenderingHints.KEY_TEXT_ANTIALIASING,
+			RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+			);*/
 			running = true;
 			
 			gsm = new GameStateManager();
@@ -84,6 +91,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		private void update() {
 			gsm.update();
+			Keys.update();
 		}
 
 		private void draw() {
@@ -100,10 +108,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		}
 
 		public void keyPressed(KeyEvent key) {
-			gsm.keyPressed(key.getKeyCode());
+			Keys.keySet(key.getKeyCode(), true);
 		}
 
 		public void keyReleased(KeyEvent key) {
-			gsm.keyReleased(key.getKeyCode());
+			Keys.keySet(key.getKeyCode(), false);
 		}
 }
