@@ -5,22 +5,18 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 
-import Main.GamePanel;
-
 public class EnemyPlanet extends GameObject {
 	
-	public EnemyPlanet(float xLoc, float yLoc, int planetSize, int planetScoreNumber) {
+	public EnemyPlanet(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
 		this.planetSize = planetSize;
 		this.planetScoreNumber = planetScoreNumber;
-		//init();
 	}
 	
 
 	@Override
 	public void init() {
-		checkWindowCollision(xLoc, yLoc); // is not need, already hardcoded.
 		
 	}
 
@@ -61,21 +57,5 @@ public class EnemyPlanet extends GameObject {
 	@Override
 	public int planetScoreNumber() {
 		return (int)planetScoreNumber;
-	}
-
-	@Override
-	public float[] checkWindowCollision(float xLoc, float yLoc) {
-		if(xLoc - (this.planetSize / 2)  < 0) {
-			this.xLoc = 0;
-		}else if(xLoc + (this.planetSize) > GamePanel.WIDTH){
-			this.xLoc = GamePanel.WIDTH - (this.planetSize);
-		}
-		
-		if(yLoc - (this.planetSize / 2) < 0) {
-			this.yLoc = 0;
-		}else if(yLoc + (this.planetSize) > GamePanel.HEIGHT){
-			this.yLoc = GamePanel.HEIGHT - (this.planetSize);
-		}
-		return new float[] {xLoc, yLoc};
 	}
 }

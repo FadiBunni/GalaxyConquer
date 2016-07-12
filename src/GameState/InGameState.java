@@ -1,11 +1,12 @@
 package GameState;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 import Handler.Keys;
-
+import Handler.MouseEvents;
 import Backgrounds.Background;
 import Entity.*;
 import Main.GamePanel;
@@ -15,7 +16,12 @@ public class InGameState extends GameState {
 	
 	private Background bg;
 	//private ArrayList<Planet> planets;
-	private int amountOfPlanets = 40;
+	private int amountOfPlanets = 30;
+	private int mouseX;
+	private int mouseY;
+	private boolean hasPressedOnce;
+	private int rectStartX;
+	private int rectStartY;
 	private ArrayList<PlanetGrayzone> planetGrayzones = new ArrayList<PlanetGrayzone>(50);
 	private ArrayList<PlayerPlanet> playerPlanets = new ArrayList<PlayerPlanet>(52);
 	private ArrayList<EnemyPlanet> enemyPlanets = new ArrayList<EnemyPlanet>(52);
@@ -33,28 +39,81 @@ public class InGameState extends GameState {
 		EnemyPlanet enemyPlanet = new EnemyPlanet(GamePanel.WIDTH - 100 , GamePanel.HEIGHT - 100,90,400);
 		playerPlanets.add(playerPlanet);
 		enemyPlanets.add(enemyPlanet);
+		spawnPlanets();
 		
 	}
-	
 	public void update() {
-		
 		// check keys
 		handleInput();
-		
-		
-		spawnPlanets();
-			
+		beginDragged();
 		// update playerPlanet
 		for (int i = 0; i< playerPlanets.size(); i++){
 			playerPlanets.get(i).update();
+			if(hasPressedOnce) {
+				if(playerPlanets.get(i).getBounds().intersects(RectToMouse(rectStartX, rectStartY)) ||
+						playerPlanets.get(i).getBounds().contains(rectStartX, rectStartY)) {
+					playerPlanets.get(i).setHighlighted(true);
+				}
+				else {
+					playerPlanets.get(i).setHighlighted(false);
+				}
+				
+				if(!MouseEvents.isPressed(MouseEvents.LEFTCLICK)) {
+					hasPressedOnce = false;
+				}
+			}
 		}
-		
 		// update enemyPlanet
 		for (int i = 0; i< enemyPlanets.size(); i++){
 			enemyPlanets.get(i).update();
 		}
 	}
+	public void draw(Graphics2D g2d) {
+		// set rendering to be beautiful :)
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
+		// draw bg
+		bg.draw(g2d);
+		// draw Rectangle to Mouse
+		// draw planetGrayzone
+		for (int i = 0; i< planetGrayzones.size(); i++){
+			planetGrayzones.get(i).draw(g2d);
+		}
+		
+		// draw playerPlanet
+		for (int i = 0; i< playerPlanets.size(); i++){
+			playerPlanets.get(i).draw(g2d);
+		}
+		
+		// draw enemyPlanet
+		for (int i = 0; i< enemyPlanets.size(); i++){
+			enemyPlanets.get(i).draw(g2d);
+		}
+		if(hasPressedOnce) {
+			g2d.draw(RectToMouse(rectStartX, rectStartY));
+		}
+	}
+	// Starts the mouse dragging procedure (Only runs once per click)
+		public void beginDragged() {
+			if(MouseEvents.isPressed(MouseEvents.LEFTCLICK) && !hasPressedOnce) {
+				hasPressedOnce = true;
+				rectStartX = MouseEvents.mouseX;
+				rectStartY = MouseEvents.mouseY;
+			} 
+		}
+		// Returns the rectangle from the clicked point to the mouse location
+		private Rectangle RectToMouse(int x, int y) {
+			mouseX = MouseEvents.mouseX;
+			mouseY = MouseEvents.mouseY;
+			// right-bottom
+			if(mouseX > x && mouseY > y) return new Rectangle(x, y, mouseX-x, mouseY-y);
+			// left-bottom
+			else if(mouseX < x && mouseY > y) return new Rectangle(mouseX, y,x-mouseX, mouseY-y);
+			// top right
+			else if(mouseX > x && mouseY < y) return new Rectangle(x, mouseY, mouseX-x, y-mouseY);
+			//top left
+			else return new Rectangle(mouseX, mouseY, x-mouseX, y-mouseY);
+		}
 	public void spawnPlanets() {
 		int counter = 0;
 		boolean foundPlanetCollision;
@@ -68,7 +127,7 @@ public class InGameState extends GameState {
 			
 			for (int i = 0; i < planetGrayzones.size(); i++){
 				
-				if(checkPlanetsCollision(currentPlanet)){
+				if(checkPlanetsCollision(currentPlanet) || currentPlanet.collidesWithWindow()){
 					
 					foundPlanetCollision = true;
 					counter++;
@@ -128,29 +187,6 @@ public class InGameState extends GameState {
 		return false;
 	}
 		
-	public void draw(Graphics2D g2d) {
-		// set rendering to be beautiful :)
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		
-		// draw bg
-		bg.draw(g2d);
-		
-		// draw planetGrayzone
-		for (int i = 0; i< planetGrayzones.size(); i++){
-			planetGrayzones.get(i).draw(g2d);
-		}
-		
-		// draw playerPlanet
-		for (int i = 0; i< playerPlanets.size(); i++){
-			playerPlanets.get(i).draw(g2d);
-		}
-		
-		// draw enemyPlanet
-		for (int i = 0; i< enemyPlanets.size(); i++){
-			enemyPlanets.get(i).draw(g2d);
-		}
-
-	}
 
 	@Override
 	public void handleInput() {

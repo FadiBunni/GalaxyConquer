@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import Handler.Keys;
-
+import Handler.MouseEvents;
 import GameState.GameStateManager;
 
 @SuppressWarnings("serial")
-public class GamePanel extends JPanel implements Runnable, KeyListener {
+public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 	
 		// dimensions
 		public static final int WIDTH = 960;
@@ -42,6 +42,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			if (thread == null) {
 				thread = new Thread(this);
 				addKeyListener(this);
+				addMouseListener(this);
+				addMouseMotionListener(this);
 				thread.start();
 			}
 		}
@@ -93,7 +95,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			gsm.update();
 			Keys.update();
 		}
-
 		private void draw() {
 			gsm.draw(g);
 		}
@@ -106,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		public void keyTyped(KeyEvent key) {
 		}
-
+		@Override
 		public void keyPressed(KeyEvent key) {
 			Keys.keySet(key.getKeyCode(), true);
 		}
@@ -114,4 +115,29 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		public void keyReleased(KeyEvent key) {
 			Keys.keySet(key.getKeyCode(), false);
 		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			MouseEvents.mouseX = e.getX();
+			MouseEvents.mouseY = e.getY();
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			MouseEvents.mouseX = e.getX();
+			MouseEvents.mouseY = e.getY();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			MouseEvents.buttonSet(e.getButton(), true);
+			
+		}
+		public void mouseReleased(MouseEvent e) {
+			MouseEvents.buttonSet(e.getButton(), false);
+		}
+		// UNUSED
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {}
 }

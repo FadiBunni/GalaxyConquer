@@ -10,16 +10,15 @@ import Main.GamePanel;
 public class PlanetGrayzone extends GameObject {
 	
 	public PlanetGrayzone() {
-		this.xLoc = (int) (Math.random()*GamePanel.WIDTH);
-		this.yLoc = (int) (Math.random()*GamePanel.HEIGHT);
-		this.planetSize = randomPlanetIntervalSize(30,90);
-		this.planetScoreNumber = this.planetSize*3;
+		planetSize = randomPlanetIntervalSize(30,90);
+		planetScoreNumber = planetSize*3;
 		init();
+		xLoc = (int) (Math.random()*GamePanel.WIDTH);
+		yLoc = (int) (Math.random()*GamePanel.HEIGHT);
 	}
 
 	@Override
 	public void init() {
-		checkWindowCollision(xLoc, yLoc);
 	}
 
 	@Override
@@ -32,8 +31,6 @@ public class PlanetGrayzone extends GameObject {
 		FontMetrics fm = g2d.getFontMetrics();
 		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);
 		float y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
-		
-		
 		g2d.setColor(Color.GRAY);
 		g2d.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
 		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -47,19 +44,17 @@ public class PlanetGrayzone extends GameObject {
 		return (int)(Math.random() * range) + min;
 	} 
 	
-	public float[] checkWindowCollision(float xLoc, float yLoc) {
-		if(xLoc - (this.planetSize / 2)  < 0) {
-			this.xLoc = 0;
-		}else if(xLoc + (this.planetSize) > GamePanel.WIDTH){
-			this.xLoc = GamePanel.WIDTH - (this.planetSize);
-		}
+	public boolean collidesWithWindow() {
+		int left = xLoc;
+		int right = xLoc+planetSize;
+		int up = yLoc;
+		int down = yLoc+planetSize;
 		
-		if(yLoc - (this.planetSize / 2) < 0) {
-			this.yLoc = 0;
-		}else if(yLoc + (this.planetSize) > GamePanel.HEIGHT){
-			this.yLoc = GamePanel.HEIGHT - (this.planetSize);
+		if(left < 0 || right > GamePanel.WIDTH || up < 0 || down > GamePanel.HEIGHT) {
+			return true;
 		}
-		return new float[] {xLoc, yLoc};
+		else return false;
+		
 	}
 	
 	public float getX(){

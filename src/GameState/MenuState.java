@@ -36,13 +36,9 @@ public class MenuState extends GameState {
 			bg = new Background("/Backgrounds/hubble1.jpg", 1);
 			
 			titleColor = new Color(255,255,255);
-			titleFont = new Font (
-					"Centrury Gothic",
-					Font.PLAIN,
-					40					
-					);
+			titleFont = new Font ("Centrury Gothic", Font.PLAIN, 40);
 			font = new Font("Arial", Font.PLAIN, 40);
-			
+			text = "Galaxy Conquer";
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -55,32 +51,24 @@ public class MenuState extends GameState {
 		handleInput();
 	}
 	
-	public void draw(Graphics2D g2d) {
+	public void draw(Graphics2D g) {
 		// draw bg
-		bg.draw(g2d);
-		
+		bg.draw(g);
 		//draw title
-		text = "Galaxy Conquer";
-		g2d.setColor(titleColor);
-		g2d.setFont(titleFont);
-		
-		FontMetrics fm = g2d.getFontMetrics();
-        int x = ((GamePanel.WIDTH - fm.stringWidth(text)) / 2);
-        int y = GamePanel.HEIGHT - (GamePanel.HEIGHT / 2);
-        
-		g2d.drawString(text, x, y-80);
+		g.setColor(titleColor);
+		g.setFont(titleFont);
+		FontMetrics fm = g.getFontMetrics();
+		g.drawString(text, (GamePanel.WIDTH - fm.stringWidth(text)) / 2, 100);
 		
 		//draw menu options
-		g2d.setFont(font);
+		g.setFont(font);
 		for(int i = 0; i< options.length; i++){
 			if(i == currentChoice){
-				g2d.setColor(Color.BLACK);
+				g.setColor(Color.BLACK);
 			}else {
-				g2d.setColor(Color.RED);
+				g.setColor(Color.RED);
 			}   
-			x = ((GamePanel.WIDTH - fm.stringWidth(options[i])) / 2);
-			y = (int) (GamePanel.HEIGHT - (GamePanel.HEIGHT / (double)2.2));
-			g2d.drawString(options[i], x, i*35+y);
+			g.drawString(options[i], (GamePanel.WIDTH - fm.stringWidth(options[i])) / 2, 400+i*50);
 		}
 	}
 	
@@ -91,11 +79,10 @@ public class MenuState extends GameState {
 			//start
 		}
 		if(currentChoice == 1) {
-			// help
-		}
-		if(currentChoice == 2) {
+			// quit
 			System.exit(0);
 		}
+		
 	}
 	
 	public void handleInput() {
