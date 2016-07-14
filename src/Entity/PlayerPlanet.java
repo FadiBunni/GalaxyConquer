@@ -4,23 +4,39 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 public class PlayerPlanet extends GameObject {
+	private ArrayList<Ship> ships;
 	boolean highlighted;
 	
 	public PlayerPlanet(int xLoc, int yLoc, int planetSize, double planetScoreNumber) {
+		// TODO - Change xLoc and yLoc to the middle of the planet and correct everything else
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
 		this.planetSize = planetSize;
 		this.planetScoreNumber = planetScoreNumber;
+		init();
 	}
 
 	@Override
-	public void init() {		
+	public void init() {	
+		ships = new ArrayList<Ship>();	
 	}
+	
+	
 	@Override
 	public void update() {
 		planetScoreNumber += 0.05 ;
+	
+		for (int i = 0; i < ships.size(); i++){
+			Ship s = ships.get(i);
+			s.update();
+			if(s.intersects(s.getTarget())) {
+				ships.remove(s);
+				i--;
+			}
+		}
 	}
 	
 	@Override
@@ -33,7 +49,13 @@ public class PlayerPlanet extends GameObject {
 			g.setColor(Color.WHITE);
 			g.drawOval(xLoc, yLoc, planetSize, planetSize);
 		}
+		
+		// draw ships
+		for (int i = 0; i < ships.size(); i++){
+			ships.get(i).draw(g);
+		}
 	}
+	
 	// Sets the number in the middle of the planet
 	private void setPlanetText(Graphics2D g) {
 		FontMetrics fm = g.getFontMetrics();
@@ -44,6 +66,11 @@ public class PlayerPlanet extends GameObject {
 		g.drawString(Integer.toString((int)planetScoreNumber), x, y);
 	}
 
+	public void spawnShips(PlanetGrayzone p) {
+		Ship ship = new Ship(this, p);
+		ships.add(ship);
+		
+	}
 	@Override
 	public float getX() {
 		return this.xLoc;
@@ -58,12 +85,16 @@ public class PlayerPlanet extends GameObject {
 	public int getPlanetDiameter() {
 		return this.planetSize;
 	}
+	
 	public void setHighlighted(boolean b) {
 		highlighted = b;
 	}
+	public boolean getHighlighted() {
+		return highlighted;
+	}
+	
 	@Override
 	public int planetScoreNumber() {
 		return (int)planetScoreNumber;
 	}
-	
 }

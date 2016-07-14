@@ -26,16 +26,16 @@ public class PlanetGrayzone extends GameObject {
 	}
 
 	@Override
-	public void draw(Graphics2D g2d) {
+	public void draw(Graphics2D g) {
 
-		FontMetrics fm = g2d.getFontMetrics();
+		FontMetrics fm = g.getFontMetrics();
 		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);
 		float y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
-		g2d.setColor(Color.GRAY);
-		g2d.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
-		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g2d.setColor(Color.BLACK);
-		g2d.drawString(Integer.toString((int)planetScoreNumber), x, y);
+		g.setColor(Color.GRAY);
+		g.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		g.setColor(Color.BLACK);
+		g.drawString(Integer.toString((int)planetScoreNumber), x, y);
 		
 	}
 

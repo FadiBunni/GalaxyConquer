@@ -6,7 +6,8 @@ import java.awt.geom.Ellipse2D;
 
 
 public abstract class GameObject{
-	// planets
+	
+	//planets
 	protected int planetSize;
 	protected double planetScoreNumber;
 	protected int xLoc;
@@ -16,6 +17,7 @@ public abstract class GameObject{
 	public Ellipse2D.Double getBounds() {
 		return new Ellipse2D.Double(xLoc,yLoc, planetSize, planetSize);
 	}
+	
 	public abstract void init();
 	public abstract void update();
 	public abstract void draw(Graphics2D g2d);

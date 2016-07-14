@@ -72,11 +72,13 @@ public class MenuState extends GameState {
 		}
 	}
 	
+	
+	// TODO - Make a mouseHovered and a intersect square.
+	
 	private void select() {
+		//start
 		if(currentChoice == 0) {
-			gsm.setState(GameStateManager.INGAMESTATE);
-			
-			//start
+			gsm.setState(GameStateManager.INGAMESTATE);			
 		}
 		if(currentChoice == 1) {
 			// quit

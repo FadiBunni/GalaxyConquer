@@ -7,14 +7,13 @@ import java.awt.Graphics2D;
 
 public class EnemyPlanet extends GameObject {
 	
-	public EnemyPlanet(int xLoc, int yLoc, int planetSize, int planetScoreNumber) {
+	public EnemyPlanet(int xLoc, int yLoc, int planetSize, double planetScoreNumber) {
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
 		this.planetSize = planetSize;
 		this.planetScoreNumber = planetScoreNumber;
 	}
 	
-
 	@Override
 	public void init() {
 		
@@ -26,17 +25,20 @@ public class EnemyPlanet extends GameObject {
 	}
 
 	@Override
-	public void draw(Graphics2D g2d) {
-		
-		FontMetrics fm = g2d.getFontMetrics();
+	public void draw(Graphics2D g) {
+		g.setColor(Color.RED);
+		g.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
+		setPlanetText(g);
+	}
+	
+	// Sets the number in the middle of the planet
+	private void setPlanetText(Graphics2D g) {
+		FontMetrics fm = g.getFontMetrics();
 		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);
 		float y = (planetSize - (planetSize / 2) + yLoc) + fm.getDescent();
-
-		g2d.setColor(Color.RED);
-		g2d.fillOval((int)xLoc, (int)yLoc, planetSize, planetSize);
-		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-		g2d.setColor(Color.BLACK);
-		g2d.drawString(Integer.toString((int)planetScoreNumber), x, y);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+		g.setColor(Color.BLACK);
+		g.drawString(Integer.toString((int)planetScoreNumber), x, y);
 	}
 
 	@Override

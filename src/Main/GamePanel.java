@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import Handler.Keys;
 import Handler.MouseEvents;
 import GameState.GameStateManager;
+import GameState.InGameState;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener {
@@ -135,6 +136,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		}
 		public void mouseReleased(MouseEvent e) {
 			MouseEvents.buttonSet(e.getButton(), false);
+			InGameState.hasPressed = true;
 		}
 		// UNUSED
 		public void mouseExited(MouseEvent e) {}
