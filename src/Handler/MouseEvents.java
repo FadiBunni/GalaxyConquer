@@ -21,7 +21,7 @@ public class MouseEvents {
 		if (i == MouseEvent.BUTTON1)
 			buttons[LEFTCLICK] = b;
 		else if (i == MouseEvent.BUTTON2)
-			buttons[LEFTCLICK] = b;
+			buttons[MIDDLECLICK] = b;
 		else if (i == MouseEvent.BUTTON3)
 			buttons[RIGHTCLICK] = b;
 	}

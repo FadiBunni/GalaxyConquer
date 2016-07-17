@@ -11,9 +11,8 @@ public class PlayerPlanet extends GameObject {
 	boolean highlighted;
 	
 	public PlayerPlanet(int xLoc, int yLoc, int planetSize, double planetScoreNumber) {
-		// TODO - Change xLoc and yLoc to the middle of the planet and correct everything else
-		this.xLoc = xLoc;
-		this.yLoc = yLoc;
+		this.xLoc = xLoc + planetSize / 2;
+		this.yLoc = yLoc + planetSize / 2;
 		this.planetSize = planetSize;
 		this.planetScoreNumber = planetScoreNumber;
 		init();
@@ -69,8 +68,8 @@ public class PlayerPlanet extends GameObject {
 	public void spawnShips(PlanetGrayzone p) {
 		Ship ship = new Ship(this, p);
 		ships.add(ship);
-		
 	}
+	
 	@Override
 	public float getX() {
 		return this.xLoc;

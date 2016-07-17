@@ -28,7 +28,7 @@ public class InGameState extends GameState {
 	private ArrayList<PlayerPlanet> playerPlanets = new ArrayList<PlayerPlanet>();
 	private ArrayList<EnemyPlanet> enemyPlanets = new ArrayList<EnemyPlanet>();
 	// TODO - BAD PRACTICE! This boolean should not be public and static, but private instead (Or even removed if better alternative is found)
-	public static boolean hasPressed;
+	private static  boolean hasPressed;
 
 	public InGameState(GameStateManager gsm){
 		super(gsm);
@@ -36,10 +36,11 @@ public class InGameState extends GameState {
 	}
 
 	public void init(){
+		System.out.println(hasPressed);
 		bg = new Background("/Backgrounds/space.jpg", 1);	
-
-		EnemyPlanet enemyPlanet = new EnemyPlanet(10, 10, 90, 400);
-		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 100 , GamePanel.HEIGHT - 100, 90, 400);
+		
+		EnemyPlanet enemyPlanet = new EnemyPlanet(-30, -30 , 90, 400);
+		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150 , GamePanel.HEIGHT - 150, 90, 400);
 		playerPlanets.add(playerPlanet);
 		enemyPlanets.add(enemyPlanet);
 		spawnPlanets();
@@ -57,14 +58,15 @@ public class InGameState extends GameState {
 			p.update();
 			if(p.getHighlighted()) {
 				for(int j = 0; j < planetGrayzones.size(); j++) {
-					if(MouseEvents.mouseHovered(planetGrayzones.get(j).getBounds()) && hasPressed) {
+					if(MouseEvents.mouseHovered(planetGrayzones.get(j).getBounds()) && !hasPressed) {
 						if(MouseEvents.isPressed(MouseEvents.RIGHTCLICK)) {
 							p.spawnShips(planetGrayzones.get(j));
-							hasPressed = false;
+							getHasPressed(true);
 						}
 					}
 				}
 			}
+			
 			if(hasPressedOnce) {
 				if(playerPlanets.get(i).getBounds().intersects(RectToMouse(rectStartX, rectStartY)) ||
 						playerPlanets.get(i).getBounds().contains(rectStartX, rectStartY)) {
@@ -128,7 +130,6 @@ public class InGameState extends GameState {
 		}	
 	}
 	
-	// TODO - Refactor this code by refactoring the plant classes and create variables for planetdistance. 
 	public boolean checkPlanetsCollision(PlanetGrayzone currentPlanet) {
 		double dx, dy, distance;
 		float radiusSum;
@@ -136,10 +137,10 @@ public class InGameState extends GameState {
 		
 		//checking for playerPlanet collision;
 		PlayerPlanet playerPlanet = playerPlanets.get(0);
-		dx = (currentPlanet.getX() + currentPlanet.getPlanetDiameter() / 2) - (playerPlanet.getX() + playerPlanet.getPlanetDiameter() / 2);
-		dy = (currentPlanet.getY() + currentPlanet.getPlanetDiameter() / 2) - (playerPlanet.getY() + playerPlanet.getPlanetDiameter() / 2);
+		dx = currentPlanet.getX() - playerPlanet.getX() ;
+		dy = currentPlanet.getY() - playerPlanet.getY() ;
 		distance = dx * dx + dy * dy;
-		radiusSum = currentPlanet.getPlanetDiameter() / 2 + playerPlanet.getPlanetDiameter() / 2;
+		radiusSum = currentPlanet.getPlanetDiameter() + playerPlanet.getPlanetDiameter();
 		isColliding = distance < Math.pow(radiusSum + planetDistance, 2);
 		if(isColliding) {
 			return true;
@@ -147,10 +148,10 @@ public class InGameState extends GameState {
 
 		//checking for enemyPlanet collision;
 		EnemyPlanet enemyPlanet = enemyPlanets.get(0);
-		dx = (currentPlanet.getX() + currentPlanet.getPlanetDiameter() / 2) - (enemyPlanet.getX() + enemyPlanet.getPlanetDiameter() / 2);
-		dy = (currentPlanet.getY() + currentPlanet.getPlanetDiameter() / 2) - (enemyPlanet.getY() + enemyPlanet.getPlanetDiameter() / 2);
+		dx = currentPlanet.getX() - enemyPlanet.getX();
+		dy = currentPlanet.getY() - enemyPlanet.getY();
 		distance = dx * dx + dy * dy;
-		radiusSum = currentPlanet.getPlanetDiameter() / 2 + enemyPlanet.getPlanetDiameter() / 2;
+		radiusSum = currentPlanet.getPlanetDiameter() + enemyPlanet.getPlanetDiameter();
 		isColliding = distance < Math.pow(radiusSum + planetDistance, 2);
 		if(isColliding) {
 			return true;
@@ -159,10 +160,10 @@ public class InGameState extends GameState {
 		//checking for all planetGrayzone collision;
 		for(int i = 0; i < planetGrayzones.size(); i++) {
 			PlanetGrayzone planetGrayzone = planetGrayzones.get(i); 
-			dx = (currentPlanet.getX() + currentPlanet.getPlanetDiameter() / 2) - (planetGrayzone.getX() + planetGrayzone.getPlanetDiameter() / 2);
-			dy = (currentPlanet.getY() + currentPlanet.getPlanetDiameter() / 2) - (planetGrayzone.getY() + planetGrayzone.getPlanetDiameter() / 2);
+			dx = currentPlanet.getX() - planetGrayzone.getX();
+			dy = currentPlanet.getY() - planetGrayzone.getY();
 			distance = dx * dx + dy * dy;
-			radiusSum = currentPlanet.getPlanetDiameter() / 2 + planetGrayzone.getPlanetDiameter() / 2;
+			radiusSum = currentPlanet.getPlanetDiameter() + planetGrayzone.getPlanetDiameter();
 			isColliding = distance < Math.pow(radiusSum + planetDistance, 2);
 			if(isColliding) {
 				return true;
@@ -198,5 +199,10 @@ public class InGameState extends GameState {
 	public void handleInput() {
 		if(Keys.isPressed(Keys.ESCAPE)) gsm.setPaused(true);
 
+	}
+
+	public static boolean getHasPressed(boolean b) {
+		hasPressed = b;
+		return hasPressed;
 	}
 }

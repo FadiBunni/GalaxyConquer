@@ -8,8 +8,8 @@ import java.awt.Graphics2D;
 public class EnemyPlanet extends GameObject {
 	
 	public EnemyPlanet(int xLoc, int yLoc, int planetSize, double planetScoreNumber) {
-		this.xLoc = xLoc;
-		this.yLoc = yLoc;
+		this.xLoc = xLoc  + planetSize / 2;
+		this.yLoc = yLoc  + planetSize / 2;
 		this.planetSize = planetSize;
 		this.planetScoreNumber = planetScoreNumber;
 	}
@@ -31,7 +31,7 @@ public class EnemyPlanet extends GameObject {
 		setPlanetText(g);
 	}
 	
-	// Sets the number in the middle of the planet
+	// Sets the planetScoreNumber in the middle of the planet
 	private void setPlanetText(Graphics2D g) {
 		FontMetrics fm = g.getFontMetrics();
 		float x = (((planetSize - fm.stringWidth(Integer.toString((int)planetScoreNumber))) / 2) + xLoc);

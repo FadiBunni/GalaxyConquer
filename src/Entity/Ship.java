@@ -18,8 +18,8 @@ public class Ship {
 		target = o;
 		this.x = p.getX();
 		this.y = p.getY();
-		this.xEnd = o.getX()+o.getPlanetDiameter()/2;
-		this.yEnd = o.getY()+o.getPlanetDiameter()/2;
+		this.xEnd = o.getX() + o.getPlanetDiameter()/2;
+		this.yEnd = o.getY() + o.getPlanetDiameter()/2;
 		amountOfAttack = 10;
 		speed = 2;
 	}
@@ -36,9 +36,9 @@ public class Ship {
 	public void draw(Graphics2D g){
 				
 		Path2D.Double triangle = new Path2D.Double();
-		triangle.moveTo(x+(15*Math.cos(direction)), y+(15*Math.sin(direction)));
-		triangle.lineTo(x-(5*Math.sin(direction)), y+(5*Math.cos(direction)));
-		triangle.lineTo(x+(5*Math.sin(direction)), y-(5*Math.cos(direction)));
+		triangle.moveTo(x + (15*Math.cos(direction)), y + (15*Math.sin(direction)));
+		triangle.lineTo(x - (5*Math.sin(direction)), y + (5*Math.cos(direction)));
+		triangle.lineTo(x + (5*Math.sin(direction)), y - (5*Math.cos(direction)));
 		triangle.closePath();
 		g.setColor(Color.GREEN);
 		g.fill(triangle);
@@ -74,8 +74,7 @@ public class Ship {
 	}
 	
 	public boolean intersects(GameObject o) {
-		return o.getBounds().contains(x+(15*Math.cos(direction)), y+(15*Math.sin(direction)));
-		
+		return o.getBounds().contains(x + (15*Math.cos(direction)), y + (15*Math.sin(direction)));
 	}
 	
 	public void setTarget(GameObject o) {target = o; }

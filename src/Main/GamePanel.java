@@ -106,8 +106,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 			g2.dispose();
 		}
 
-		public void keyTyped(KeyEvent key) {
-		}
+		public void keyTyped(KeyEvent key) {}
+		
 		@Override
 		public void keyPressed(KeyEvent key) {
 			Keys.keySet(key.getKeyCode(), true);
@@ -136,8 +136,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		}
 		public void mouseReleased(MouseEvent e) {
 			MouseEvents.buttonSet(e.getButton(), false);
-			InGameState.hasPressed = true;
+			InGameState.getHasPressed(false);
 		}
+		
 		// UNUSED
 		public void mouseExited(MouseEvent e) {}
 		public void mouseEntered(MouseEvent e) {}
