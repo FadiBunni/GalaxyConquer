@@ -136,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener, MouseLis
 		}
 		public void mouseReleased(MouseEvent e) {
 			MouseEvents.buttonSet(e.getButton(), false);
-			InGameState.getHasPressed(false);
+			InGameState.setHasPressed(false);
 		}
 		
 		// UNUSED

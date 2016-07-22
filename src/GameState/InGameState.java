@@ -28,7 +28,7 @@ public class InGameState extends GameState {
 	private ArrayList<PlayerPlanet> playerPlanets = new ArrayList<PlayerPlanet>();
 	private ArrayList<EnemyPlanet> enemyPlanets = new ArrayList<EnemyPlanet>();
 	// TODO - BAD PRACTICE! This boolean should not be public and static, but private instead (Or even removed if better alternative is found)
-	private static  boolean hasPressed;
+	private static boolean hasPressed;
 
 	public InGameState(GameStateManager gsm){
 		super(gsm);
@@ -36,7 +36,6 @@ public class InGameState extends GameState {
 	}
 
 	public void init(){
-		System.out.println(hasPressed);
 		bg = new Background("/Backgrounds/space.jpg", 1);	
 		
 		EnemyPlanet enemyPlanet = new EnemyPlanet(-30, -30 , 90, 400);
@@ -58,10 +57,10 @@ public class InGameState extends GameState {
 			p.update();
 			if(p.getHighlighted()) {
 				for(int j = 0; j < planetGrayzones.size(); j++) {
-					if(MouseEvents.mouseHovered(planetGrayzones.get(j).getBounds()) && !hasPressed) {
+					if(MouseEvents.mouseHovered(planetGrayzones.get(j).getBounds()) && !getHasPressed()) {
 						if(MouseEvents.isPressed(MouseEvents.RIGHTCLICK)) {
 							p.spawnShips(planetGrayzones.get(j));
-							getHasPressed(true);
+							setHasPressed(true);
 						}
 					}
 				}
@@ -201,8 +200,11 @@ public class InGameState extends GameState {
 
 	}
 
-	public static boolean getHasPressed(boolean b) {
+	public static void setHasPressed(boolean b) {
 		hasPressed = b;
+	}
+	
+	public static boolean getHasPressed(){
 		return hasPressed;
 	}
 }
