@@ -66,7 +66,7 @@ public class PlayerPlanet extends GameObject {
 	}
 
 	public void spawnShips(PlanetGrayzone p) {
-		Ship ship = new Ship(this, p);
+		Ship ship = new Ship(this, null, p);
 		ships.add(ship);
 	}
 	
