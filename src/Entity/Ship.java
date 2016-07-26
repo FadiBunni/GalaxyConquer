@@ -53,8 +53,6 @@ public class Ship {
 		g.fill(triangle);
 		g.setColor(Color.BLACK);
 		g.draw(triangle);
-		
-		
 	}
 	
 	public int getAmountOfAttack() {
@@ -65,7 +63,7 @@ public class Ship {
 		mathRandom = Math.random();
 		return  mathRandom;
 	}
-	
+			
 	public void spawnShipsAroundPlayerPlanets(PlayerPlanet p) {
 		double centerX;
 		double centerY;

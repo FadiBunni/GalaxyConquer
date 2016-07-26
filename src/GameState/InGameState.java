@@ -24,9 +24,9 @@ public class InGameState extends GameState {
 	private int rectStartY;
 	
 	// TODO - Read about how to make arrays off objects.
-	private ArrayList<PlanetGrayzone> planetGrayzones = new ArrayList<PlanetGrayzone>();
-	private ArrayList<PlayerPlanet> playerPlanets = new ArrayList<PlayerPlanet>();
-	private ArrayList<EnemyPlanet> enemyPlanets = new ArrayList<EnemyPlanet>();
+	private static ArrayList<PlanetGrayzone> planetGrayzones = new ArrayList<PlanetGrayzone>();
+	private static ArrayList<PlayerPlanet> playerPlanets = new ArrayList<PlayerPlanet>();
+	private static ArrayList<EnemyPlanet> enemyPlanets = new ArrayList<EnemyPlanet>();
 	// TODO - BAD PRACTICE! This boolean should not be public and static, but private instead (Or even removed if better alternative is found)
 	private static boolean hasPressed;
 
@@ -113,7 +113,7 @@ public class InGameState extends GameState {
 			g.draw(RectToMouse(rectStartX, rectStartY));
 		}
 	}
-		
+			
 	// spawns planets and checks for collision.
 	public void spawnPlanets() {
 
@@ -128,7 +128,7 @@ public class InGameState extends GameState {
 			}
 		}	
 	}
-	
+		
 	public boolean checkPlanetsCollision(PlanetGrayzone currentPlanet) {
 		double dx, dy, distance;
 		float radiusSum;
@@ -206,5 +206,17 @@ public class InGameState extends GameState {
 	
 	public static boolean getHasPressed(){
 		return hasPressed;
+	}
+	
+	public static ArrayList<PlanetGrayzone> getGrayzonePlanets() {
+		return planetGrayzones;
+	}
+	
+	public static ArrayList<PlayerPlanet> getPlayerPlanets() {
+		return playerPlanets;
+	}
+	
+	public static ArrayList<EnemyPlanet> getEnemyPlanets() {
+		return enemyPlanets;
 	}
 }
