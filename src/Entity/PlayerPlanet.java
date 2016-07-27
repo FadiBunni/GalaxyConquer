@@ -6,8 +6,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import GameState.InGameState;
-
 public class PlayerPlanet extends GameObject {
 	private ArrayList<Ship> ships;
 	boolean highlighted;

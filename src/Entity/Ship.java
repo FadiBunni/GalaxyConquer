@@ -21,7 +21,7 @@ public class Ship {
 		this.xEnd = o.getX() + o.getPlanetDiameter() / 2;
 		this.yEnd = o.getY() + o.getPlanetDiameter() / 2;
 		amountOfAttack = 10;
-		speed = 1;
+		speed = 2;
 		getDirectionToCoords(xEnd, yEnd);
 	}
 	

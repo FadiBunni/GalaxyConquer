@@ -14,8 +14,8 @@ import Main.GamePanel;
 public class InGameState extends GameState {
 
 	private Background bg;
-	private int amountOfPlanets = 40;
-	private int planetDistance = 1;
+	private int amountOfPlanets = 30;
+	private int planetDistance = 15;
 	private int mouseX;
 	private int mouseY;
 	private int rectStartX;
@@ -34,8 +34,8 @@ public class InGameState extends GameState {
 	public void init() {
 		bg = new Background("/Backgrounds/space.jpg", 1);
 
-		EnemyPlanet enemyPlanet = new EnemyPlanet(-30, -30, 90, 400);
-		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150, GamePanel.HEIGHT - 150, 90, 400);
+		EnemyPlanet enemyPlanet = new EnemyPlanet(-30, -30, 90, 70);
+		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150, GamePanel.HEIGHT - 150, 90, 70);
 		planets.add(playerPlanet);
 		planets.add(enemyPlanet);
 		spawnPlanets();
@@ -99,13 +99,15 @@ public class InGameState extends GameState {
 		while (planets.size() < amountOfPlanets) {
 
 			PlanetGrayzone currentPlanet = new PlanetGrayzone();
-
+			
+			System.out.println(currentPlanet.getPlanetSize());
 			System.out.println("planetGrayzone: " + planets.size());
 
 			if (!checkPlanetsCollision(currentPlanet) && !currentPlanet.collidesWithWindow()) {
 				planets.add(currentPlanet);
 			}
 		}
+		
 	}
 
 	public boolean checkPlanetsCollision(PlanetGrayzone currentPlanet) {
@@ -115,10 +117,10 @@ public class InGameState extends GameState {
 
 		// checking for planet collision when spawning;
 		for (GameObject obj : planets) {
-			dx = currentPlanet.getX() - obj.getX();
-			dy = currentPlanet.getY() - obj.getY();
+			dx = (currentPlanet.getX() + currentPlanet.getPlanetDiameter() / 2) - (obj.getX() + obj.getPlanetDiameter() / 2);
+			dy = (currentPlanet.getY() + currentPlanet.getPlanetDiameter() / 2) - (obj.getY() + obj.getPlanetDiameter() / 2);
 			distance = dx * dx + dy * dy;
-			radiusSum = currentPlanet.getPlanetDiameter() + obj.getPlanetDiameter();
+			radiusSum = currentPlanet.getPlanetDiameter() / 2  + obj.getPlanetDiameter() / 2;
 			isColliding = distance < Math.pow(radiusSum + planetDistance, 2);
 			if (isColliding) {
 				return true;

@@ -10,8 +10,8 @@ import Main.GamePanel;
 public class PlanetGrayzone extends GameObject {
 	
 	public PlanetGrayzone() {
-		planetSize = randomPlanetIntervalSize(40,105);
-		planetScoreNumber = planetSize*3;
+		planetSize = randomPlanetIntervalSize(60,105);
+		planetScoreNumber = Math.random()*planetSize;
 		init();
 		xLoc = ((int) (Math.random()*GamePanel.WIDTH)) + planetSize / 2;
 		yLoc = ((int) (Math.random()*GamePanel.HEIGHT)) + planetSize / 2;
@@ -63,6 +63,10 @@ public class PlanetGrayzone extends GameObject {
 	
 	public float getY(){
 		return this.yLoc;
+	}
+	
+	public int getPlanetSize() {
+		return this.planetSize;
 	}
 	
 	public int getPlanetDiameter() {
