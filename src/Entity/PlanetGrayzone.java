@@ -10,7 +10,7 @@ import Main.GamePanel;
 public class PlanetGrayzone extends GameObject {
 	
 	public PlanetGrayzone() {
-		planetSize = randomPlanetIntervalSize(30,90);
+		planetSize = randomPlanetIntervalSize(40,105);
 		planetScoreNumber = planetSize*3;
 		init();
 		xLoc = ((int) (Math.random()*GamePanel.WIDTH)) + planetSize / 2;

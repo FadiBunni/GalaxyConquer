@@ -67,8 +67,8 @@ public class PlayerPlanet extends GameObject {
 		g.drawString(Integer.toString((int)planetScoreNumber), x, y);
 	}
 
-	public void spawnShips(PlanetGrayzone p) {
-		Ship ship = new Ship(this, null, p);
+	public void spawnShips(GameObject p) {
+		Ship ship = new Ship(this, p);
 		ships.add(ship);
 	}
 	

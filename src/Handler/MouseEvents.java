@@ -46,4 +46,10 @@ public class MouseEvents {
 	public static boolean mouseHovered(Ellipse2D.Double e) {
 		return e.contains(mouseX,mouseY);
 	}
+	public static boolean anyMouseKeyPress() {
+		for(int i = 0; i < NUM_BUTTONS; i++) {
+			if(buttons[i]) return true;
+		}
+		return false;
+	}
 }

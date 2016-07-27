@@ -3,6 +3,7 @@ package Entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 
 public class Ship {
 	 private double x;
@@ -10,25 +11,18 @@ public class Ship {
 	 private double xEnd;
 	 private double yEnd;
 	 private double direction;
-	 private double mathRandom;
-	 private int shipsSpawnAroundPlanets = 10;
 	 private int amountOfAttack;
 	 private double speed;
 	 private GameObject target;
 	
-	public Ship(PlayerPlanet p, EnemyPlanet e, GameObject o) {
+	public Ship(PlayerPlanet p, GameObject o) {
 		target = o;
-		setMathRandom();
-		if(e == null){
-			spawnShipsAroundPlayerPlanets(p);
-		} else{
-			this.x = e.getX() + e.getPlanetDiameter() / 2;
-			this.y = e.getY() + e.getPlanetDiameter() / 2;
-		}
+		spawnShipsAroundPlayerPlanets(p);
 		this.xEnd = o.getX() + o.getPlanetDiameter() / 2;
 		this.yEnd = o.getY() + o.getPlanetDiameter() / 2;
 		amountOfAttack = 10;
 		speed = 1;
+		getDirectionToCoords(xEnd, yEnd);
 	}
 	
 	
@@ -38,7 +32,6 @@ public class Ship {
 	}
 	
 	public void update(){
-		getDirectionToCoords(xEnd, yEnd);
 		moveShip();
 	}
 
@@ -59,12 +52,9 @@ public class Ship {
 		return amountOfAttack;
 	}
 	
-	public double setMathRandom() {
-		mathRandom = Math.random();
-		return  mathRandom;
-	}
 			
 	public void spawnShipsAroundPlayerPlanets(PlayerPlanet p) {
+		double m = Math.random();
 		double centerX;
 		double centerY;
 		double radiusX;
@@ -73,8 +63,8 @@ public class Ship {
 		centerY = p.getY() + p.getPlanetDiameter() / 2;
 		radiusX = (p.getPlanetDiameter() / 2);
 		radiusY = (p.getPlanetDiameter() / 2);
-		this.x = (radiusX + shipsSpawnAroundPlanets) * (Math.cos(Math.toRadians(Math.floor(mathRandom * 361)))) + centerX;
-		this.y = (radiusY + shipsSpawnAroundPlanets) * (Math.sin(Math.toRadians(Math.floor(mathRandom * 361)))) + centerY;
+		this.x = (radiusX + 10) * (Math.cos(Math.toRadians(Math.floor(m * 361)))) + centerX;
+		this.y = (radiusY + 10) * (Math.sin(Math.toRadians(Math.floor(m * 361)))) + centerY;
 	}
 	
 	private void getDirectionToCoords(double xEnd, double yEnd) {
@@ -96,6 +86,14 @@ public class Ship {
 	
 	public double gety() {
 		return y;
+	}
+	public boolean checkCollision(ArrayList<GameObject> planets) {
+		for(GameObject obj: planets) {
+			if(this.intersects(obj)) {
+				
+			}
+		}
+		return false;
 	}
 	
 	public boolean intersects(GameObject o) {
