@@ -21,7 +21,7 @@ public class EnemyPlanet extends GameObject {
 
 	@Override
 	public void update() {
-		planetScoreNumber += 0.05 ;
+		planetScoreNumber += 0.1 ;
 	}
 
 	@Override
@@ -57,7 +57,12 @@ public class EnemyPlanet extends GameObject {
 	}
 
 	@Override
-	public int planetScoreNumber() {
+	public int getPlanetScoreNumber() {
 		return (int)planetScoreNumber;
+	}
+	
+	@Override
+	public void setPlanetScoreNumber(int planetScoreNumber) {
+		this.planetScoreNumber = planetScoreNumber;
 	}
 }

@@ -11,7 +11,7 @@ public class PlanetGrayzone extends GameObject {
 	
 	public PlanetGrayzone() {
 		planetSize = randomPlanetIntervalSize(60,105);
-		planetScoreNumber = Math.random()*planetSize;
+		planetScoreNumber = (Math.random()*planetSize);
 		init();
 		xLoc = ((int) (Math.random()*GamePanel.WIDTH)) + planetSize / 2;
 		yLoc = ((int) (Math.random()*GamePanel.HEIGHT)) + planetSize / 2;
@@ -73,8 +73,14 @@ public class PlanetGrayzone extends GameObject {
 		return this.planetSize;
 	}
 	
-	public int planetScoreNumber() {
+	public int getPlanetScoreNumber() {
 		return (int)planetScoreNumber;
 	}
+	
+	@Override
+	public void setPlanetScoreNumber(int planetScoreNumber) {
+		this.planetScoreNumber = planetScoreNumber;
+	}
+
 	
 }

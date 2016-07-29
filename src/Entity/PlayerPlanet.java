@@ -26,7 +26,7 @@ public class PlayerPlanet extends GameObject {
 	
 	@Override
 	public void update() {
-		planetScoreNumber += 0.05 ;
+		planetScoreNumber += 0.1 ;
 	
 		for (int i = 0; i < ships.size(); i++){
 			Ship s = ships.get(i);
@@ -34,6 +34,11 @@ public class PlayerPlanet extends GameObject {
 			if(s.intersects(s.getTarget())) {
 				ships.remove(s);
 				i--;
+				s.getTarget().setPlanetScoreNumber(s.getTarget().getPlanetScoreNumber()-1);
+				if(s.getTarget().getPlanetScoreNumber() <= 0) {
+					// TODO - planetsScoreNumber decreases when the first ships has hit the target, fix this problem.
+					s.getTarget().setPlanetScoreNumber(s.getTarget().getPlanetScoreNumber() + ships.size());
+				}
 			}
 		}
 	}
@@ -64,10 +69,22 @@ public class PlayerPlanet extends GameObject {
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 		g.drawString(Integer.toString((int)planetScoreNumber), x, y);
 	}
+	
+	public void checkShipCollision(ArrayList<GameObject> planets) {
+		for(Ship s: ships) {
+			s.checkCollision(planets);
+		}
+	}
 
 	public void spawnShips(GameObject p) {
-		Ship ship = new Ship(this, p);
-		ships.add(ship);
+		for(int i = 0; i-planetScoreNumber / 2<planetScoreNumber / 2; i++){
+			Ship ship = new Ship(this, p);
+			ships.add(ship);
+			if(planetScoreNumber <= 0) {
+				planetScoreNumber = 0;
+			}
+			
+		}
 	}
 	
 	@Override
@@ -93,7 +110,12 @@ public class PlayerPlanet extends GameObject {
 	}
 	
 	@Override
-	public int planetScoreNumber() {
+	public int getPlanetScoreNumber() {
 		return (int)planetScoreNumber;
+	}
+
+	@Override
+	public void setPlanetScoreNumber(int planetScoreNumber) {
+		this.planetScoreNumber = planetScoreNumber;
 	}
 }

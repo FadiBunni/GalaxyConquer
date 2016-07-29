@@ -20,15 +20,14 @@ public class Ship {
 		spawnShipsAroundPlayerPlanets(p);
 		this.xEnd = o.getX() + o.getPlanetDiameter() / 2;
 		this.yEnd = o.getY() + o.getPlanetDiameter() / 2;
-		amountOfAttack = 10;
+		amountOfAttack = 1;
 		speed = 2;
-		getDirectionToCoords(xEnd, yEnd);
+		p.setPlanetScoreNumber(p.getPlanetScoreNumber()-1);
+		init();
 	}
 	
-	
-	
 	public void init(){
-		
+		getDirectionToCoords(xEnd, yEnd);
 	}
 	
 	public void update(){
@@ -47,11 +46,6 @@ public class Ship {
 		g.setColor(Color.BLACK);
 		g.draw(triangle);
 	}
-	
-	public int getAmountOfAttack() {
-		return amountOfAttack;
-	}
-	
 			
 	public void spawnShipsAroundPlayerPlanets(PlayerPlanet p) {
 		double m = Math.random();
@@ -66,7 +60,7 @@ public class Ship {
 		this.x = (radiusX + 10) * (Math.cos(Math.toRadians(Math.floor(m * 361)))) + centerX;
 		this.y = (radiusY + 10) * (Math.sin(Math.toRadians(Math.floor(m * 361)))) + centerY;
 	}
-	
+		
 	private void getDirectionToCoords(double xEnd, double yEnd) {
 		this.xEnd = xEnd;
 		this.yEnd = yEnd;
@@ -80,20 +74,25 @@ public class Ship {
 		y+= speed * Math.sin(direction);
 	}
 	
+	public int getAmountOfAttack() {
+		return amountOfAttack;
+	}
+	
+	public boolean checkCollision(ArrayList<GameObject> planets) {
+		for(GameObject obj: planets) {
+			if(this.intersects(obj)) {
+				System.out.println("we are intersecting!");
+			}
+		}
+		return false;
+	}
+	
 	public double getx() {
 		return x;
 	}
 	
 	public double gety() {
 		return y;
-	}
-	public boolean checkCollision(ArrayList<GameObject> planets) {
-		for(GameObject obj: planets) {
-			if(this.intersects(obj)) {
-				
-			}
-		}
-		return false;
 	}
 	
 	public boolean intersects(GameObject o) {

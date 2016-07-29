@@ -24,5 +24,6 @@ public abstract class GameObject{
 	public abstract float getX();
 	public abstract float getY();
 	public abstract int getPlanetDiameter();
-	public abstract int planetScoreNumber();
+	public abstract int getPlanetScoreNumber();
+	public abstract void setPlanetScoreNumber(int planetScoreNumber);
 }

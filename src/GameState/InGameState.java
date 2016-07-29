@@ -62,6 +62,7 @@ public class InGameState extends GameState {
 						}
 					}
 				}
+				
 				if(MouseEvents.isPressed(MouseEvents.LEFTCLICK)) {
 					if (p.getBounds().intersects(RectToMouse(rectStartX, rectStartY))
 							|| p.getBounds().contains(rectStartX, rectStartY)) {
