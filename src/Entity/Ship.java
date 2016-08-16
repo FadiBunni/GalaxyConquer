@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
+import Main.GamePanel;
+
 public class Ship {
 	 private double x;
 	 private double y;
@@ -35,11 +37,10 @@ public class Ship {
 	}
 
 	public void draw(Graphics2D g){
-				
 		Path2D.Double triangle = new Path2D.Double();
-		triangle.moveTo(x + (15*Math.cos(direction)), y + (15*Math.sin(direction)));
-		triangle.lineTo(x - (5*Math.sin(direction)), y + (5*Math.cos(direction)));
-		triangle.lineTo(x + (5*Math.sin(direction)), y - (5*Math.cos(direction)));
+		triangle.moveTo(x + (15*Math.cos(getDirection())), y + (15*Math.sin(getDirection())));
+		triangle.lineTo(x - (5*Math.sin(getDirection())), y + (5*Math.cos(getDirection())));
+		triangle.lineTo(x + (5*Math.sin(getDirection())), y - (5*Math.cos(getDirection())));
 		triangle.closePath();
 		g.setColor(Color.GREEN);
 		g.fill(triangle);
@@ -67,11 +68,12 @@ public class Ship {
 		float deltaX = (float) (this.xEnd - this.x);
 		float deltaY = (float) (this.yEnd - this.y);
 		direction = Math.atan2(deltaY, deltaX);
+		System.out.println(direction);
 	}
 	
 	private void moveShip() {
-		x+= speed * Math.cos(direction);
-		y+= speed * Math.sin(direction);
+		x+= speed * Math.cos(getDirection());
+		y+= speed * Math.sin(getDirection());
 	}
 	
 	public int getAmountOfAttack() {
@@ -81,18 +83,26 @@ public class Ship {
 	public boolean checkCollision(ArrayList<GameObject> planets) {
 		for(GameObject obj: planets) {
 			if(this.intersects(obj)) {
-				System.out.println("we are intersecting!");
+				return true;
 			}
 		}
 		return false;
 	}
 	
-	public double getx() {
+	public double getX() {
 		return x;
 	}
 	
-	public double gety() {
+	public double getY() {
 		return y;
+	}
+	
+	public double getDirection(){
+		return direction;
+	}
+	
+	public double setDirection(double arg){
+		return getDirection()+arg;
 	}
 	
 	public boolean intersects(GameObject o) {

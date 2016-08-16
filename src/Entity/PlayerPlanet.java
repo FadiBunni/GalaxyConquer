@@ -26,14 +26,14 @@ public class PlayerPlanet extends GameObject {
 	
 	@Override
 	public void update() {
-		planetScoreNumber += 0.1 ;
+		planetScoreNumber += 0.01 ;
 	
 		for (int i = 0; i < ships.size(); i++){
 			Ship s = ships.get(i);
 			s.update();
 			if(s.intersects(s.getTarget())) {
-				ships.remove(s);
-				i--;
+				//ships.remove(s);
+				//i--;
 				s.getTarget().setPlanetScoreNumber(s.getTarget().getPlanetScoreNumber()-1);
 				if(s.getTarget().getPlanetScoreNumber() <= 0) {
 					// TODO - planetsScoreNumber decreases when the first ships has hit the target, fix this problem.
@@ -72,12 +72,15 @@ public class PlayerPlanet extends GameObject {
 	
 	public void checkShipCollision(ArrayList<GameObject> planets) {
 		for(Ship s: ships) {
-			s.checkCollision(planets);
+			if(s.checkCollision(planets)) {
+				s.setDirection(10);
+			}
+				
 		}
 	}
 
 	public void spawnShips(GameObject p) {
-		for(int i = 0; i-planetScoreNumber / 2<planetScoreNumber / 2; i++){
+		for(int i = 0; i-planetScoreNumber / 2 <planetScoreNumber / 2; i++){
 			Ship ship = new Ship(this, p);
 			ships.add(ship);
 			if(planetScoreNumber <= 0) {

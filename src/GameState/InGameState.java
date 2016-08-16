@@ -35,7 +35,7 @@ public class InGameState extends GameState {
 		bg = new Background("/Backgrounds/space.jpg", 1);
 
 		EnemyPlanet enemyPlanet = new EnemyPlanet(-30, -30, 90, 70);
-		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150, GamePanel.HEIGHT - 150, 90, 70);
+		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150, GamePanel.HEIGHT - 150, 90, 2);
 		planets.add(playerPlanet);
 		planets.add(enemyPlanet);
 		spawnPlanets();
@@ -75,6 +75,16 @@ public class InGameState extends GameState {
 			}
 
 		}
+		// TODO - We can also update ships with the "update planets" since the initiation code is the same.
+		// update ships - 
+		for (GameObject obj : planets) {
+			if (obj.getClass() == PlayerPlanet.class) {
+				PlayerPlanet p = (PlayerPlanet) obj;
+				p.checkShipCollision(planets);
+					
+			}
+		}
+		
 	}
 
 	public void draw(Graphics2D g) {
