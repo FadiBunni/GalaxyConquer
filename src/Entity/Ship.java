@@ -14,7 +14,9 @@ public class Ship {
 	 private double yEnd;
 	 private double direction;
 	 private int amountOfAttack;
+	 private double angle;
 	 private double speed;
+	 private boolean shipIntersect;
 	 private GameObject target;
 	
 	public Ship(PlayerPlanet p, GameObject o) {
@@ -34,6 +36,8 @@ public class Ship {
 	
 	public void update(){
 		moveShip();
+//		if(!shipIntersect)
+//			getDirectionToCoords(xEnd, yEnd);
 	}
 
 	public void draw(Graphics2D g){
@@ -62,47 +66,84 @@ public class Ship {
 		this.y = (radiusY + 10) * (Math.sin(Math.toRadians(Math.floor(m * 361)))) + centerY;
 	}
 		
-	private void getDirectionToCoords(double xEnd, double yEnd) {
+	public void getDirectionToCoords(double xEnd, double yEnd) {
 		this.xEnd = xEnd;
 		this.yEnd = yEnd;
 		float deltaX = (float) (this.xEnd - this.x);
 		float deltaY = (float) (this.yEnd - this.y);
 		direction = Math.atan2(deltaY, deltaX);
-		System.out.println(direction);
+		System.out.println("1.: "+direction);
 	}
 	
 	private void moveShip() {
 		x+= speed * Math.cos(getDirection());
 		y+= speed * Math.sin(getDirection());
+		angle+=10;
 	}
 	
 	public int getAmountOfAttack() {
 		return amountOfAttack;
 	}
 	
-	public boolean checkCollision(ArrayList<GameObject> planets) {
-		for(GameObject obj: planets) {
-			if(this.intersects(obj)) {
-				return true;
-			}
+	public double makeShipGoAroundPlanet(ArrayList<GameObject> planets, double angle) {
+		double centerX;
+		double centerY;
+		double radiusX;
+		double radiusY;
+		double newDirection = 0;
+		for(GameObject planet: planets) {
+			centerX = planet.getX() + planet.getPlanetDiameter() / 2;
+			centerY = planet.getY() + planet.getPlanetDiameter() / 2;
+			radiusX = (planet.getPlanetDiameter() / 2);
+			radiusY = (planet.getPlanetDiameter() / 2);
+			newDirection = Math.atan2((radiusX + 10) * (Math.cos(Math.toRadians(Math.floor(angle*361)))) + centerX, (radiusY + 10) * (Math.sin(Math.toRadians(Math.floor(angle*361)))) + centerY);
 		}
-		return false;
+		return newDirection;
+	}
+	
+	public void checkCollision(ArrayList<GameObject> planets) {
+		for(GameObject obj: planets) {
+			shipIntersect = false;
+			if(this.intersects(obj)) {
+				setDirection(makeShipGoAroundPlanet(planets,angle));
+				shipIntersect = true;
+				System.out.println("2.: "+getDirection());
+			}
+			shipIntersect = false;
+			getDirectionToCoords(xEnd,yEnd);
+		}
 	}
 	
 	public double getX() {
 		return x;
 	}
 	
+	public void setX(double arg) {
+		x = arg;
+	}
+	
 	public double getY() {
 		return y;
+	}
+	
+	public void setY(double arg) {
+		y = arg;
+	}
+	
+	public double getXEnd(){
+		return xEnd;
+	}
+	
+	public double getYEnd(){
+		return yEnd;
 	}
 	
 	public double getDirection(){
 		return direction;
 	}
 	
-	public double setDirection(double arg){
-		return getDirection()+arg;
+	public void setDirection(double arg){
+		direction = arg;
 	}
 	
 	public boolean intersects(GameObject o) {
