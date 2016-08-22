@@ -16,7 +16,7 @@ public class Ship {
 	 private int amountOfAttack;
 	 private double angle;
 	 private double speed;
-	 private boolean shipIntersect;
+	 private boolean shipIntersect = false;
 	 private GameObject target;
 	
 	public Ship(PlayerPlanet p, GameObject o) {
@@ -36,8 +36,8 @@ public class Ship {
 	
 	public void update(){
 		moveShip();
-//		if(!shipIntersect)
-//			getDirectionToCoords(xEnd, yEnd);
+		if(!shipIntersect)
+			getDirectionToCoords(xEnd, yEnd);
 	}
 
 	public void draw(Graphics2D g){
@@ -78,7 +78,7 @@ public class Ship {
 	private void moveShip() {
 		x+= speed * Math.cos(getDirection());
 		y+= speed * Math.sin(getDirection());
-		angle+=10;
+		angle = 90;
 	}
 	
 	public int getAmountOfAttack() {
@@ -110,7 +110,7 @@ public class Ship {
 				System.out.println("2.: "+getDirection());
 			}
 			shipIntersect = false;
-			getDirectionToCoords(xEnd,yEnd);
+
 		}
 	}
 	

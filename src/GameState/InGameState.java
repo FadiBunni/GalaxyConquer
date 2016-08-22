@@ -35,7 +35,7 @@ public class InGameState extends GameState {
 		bg = new Background("/Backgrounds/space.jpg", 1);
 
 		EnemyPlanet enemyPlanet = new EnemyPlanet(-30, -30, 90, 70);
-		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150, GamePanel.HEIGHT - 150, 90, 70);
+		PlayerPlanet playerPlanet = new PlayerPlanet(GamePanel.WIDTH - 150, GamePanel.HEIGHT - 150, 90, 200);
 		planets.add(playerPlanet);
 		planets.add(enemyPlanet);
 		spawnPlanets();
